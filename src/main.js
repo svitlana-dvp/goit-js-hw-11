@@ -26,8 +26,6 @@ form.addEventListener("submit", async (e) => {
   try {
     const data = await getImagesByQuery(query);
 
-    hideLoader();
-
     if (data.hits.length === 0) {
       iziToast.error({
         title: "Error",
@@ -38,8 +36,9 @@ form.addEventListener("submit", async (e) => {
 
     createGallery(data.hits);
   } catch (error) {
-    hideLoader();
     iziToast.error({ title: "Error", message: "Something went wrong!" });
     console.error(error);
+  } finally {
+    hideLoader(); // ← тепер лоадер гарантовано ховається після будь-якого результату
   }
 });
